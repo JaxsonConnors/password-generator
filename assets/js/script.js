@@ -11,30 +11,51 @@ const num = '0123456789';
 const spec = ' !#$%&()*+,-./:;<=>?@[\]^_`{|}~';
 
 function allowedCharacters() {
+  let charset = ''
+
+  var passL = window.confirm('Do you want lowercase letters in your password?');
+  if (passL) {
+  var charset += alphaL
+  }
 
   var passU = window.confirm('Do you Want Capital letters in your password?');
   if (passU) {
-
+    charset += alphaU
   }
 
   var passNum = window.confirm('Do you want numbers in your password?');
   if (passNum) {
-
+    charset += num
   }
+
   var passSpec = window.confirm('Do you want special characters (+/?; etc...) in your password?');
-  if (passSpec) {}
+  if (passSpec) {
+    charset += spec
+  }
+
+  return charset;
 };
 
 function generatePassword() {
 
-  var passLength = window.prompt('How long would you like your password to be?');
+  var passLength = '';
+
+  do {
+    passLength = parseInt(window.prompt('How long would you like your password to be?'));
+  } while (passLength < 8 || passLength > 128);
 
   let length = passLength,
-    charset = alphaL + allowedCharacters(),
-    password = '';
-  for (let i = 0, n = charset.length; i < length; i++) {
-    password += charset.charAt(Math.floor(Math.random() = n));
-  }
+    charset = allowedCharacters();
+
+    let hasPassed = false;
+
+  do {
+    let password = '';
+    for (let i = 0, n = charset.length; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * n));
+    }
+  } while (!hasPassed);
+
   return password;
 };
 
